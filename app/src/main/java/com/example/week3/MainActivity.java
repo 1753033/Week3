@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText tbUsername,tbPassword,tbPassword2,tbBirthday;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         btnSelect = findViewById(R.id.btnSelect);
         btnReset = findViewById(R.id.btnReset);
         btnSignup = findViewById(R.id.btnsignup);
+        gender = findViewById(R.id.rbgender);
+        hobbies = findViewById(R.id.rbhobbies);
 
 
         btnReset.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 tbBirthday.setText("");
                 tbPassword.setText("");
                 tbPassword2.setText("");
+                gender.clearCheck();
+                hobbies.clearCheck();
+
+            }
+        });
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -48,15 +61,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
                 Bundle myBundle = new Bundle();
 
-
                 myBundle.putString("Username", tbUsername.getText().toString());
 
                 myBundle.putString("Password", tbPassword.getText().toString());
 
                 myBundle.putString("Birthday", tbBirthday.getText().toString());
 
+                selectGender = findViewById(gender.getCheckedRadioButtonId());
+                myBundle.putString("Gender", selectGender.getText().toString());
 
-
+                selectHobbies = findViewById(hobbies.getCheckedRadioButtonId());
+                myBundle.putString("Hobbies", selectHobbies.getText().toString());
 
                 myIntent.putExtras(myBundle);
                 startActivityForResult(myIntent, 102);
