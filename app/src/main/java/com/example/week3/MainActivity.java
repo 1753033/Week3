@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -58,23 +59,40 @@ public class MainActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
-                Bundle myBundle = new Bundle();
+                if (!tbUsername.getText().toString().isEmpty() && !tbPassword.getText().toString().isEmpty() && !tbPassword2.getText().toString().isEmpty()) {
 
-                myBundle.putString("Username", tbUsername.getText().toString());
+                    if (tbPassword.getText().toString().equals(tbPassword2.getText().toString())) {
 
-                myBundle.putString("Password", tbPassword.getText().toString());
+                        Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
+                        Bundle myBundle = new Bundle();
 
-                myBundle.putString("Birthday", tbBirthday.getText().toString());
+                        myBundle.putString("Username", tbUsername.getText().toString());
 
-                selectGender = findViewById(gender.getCheckedRadioButtonId());
-                myBundle.putString("Gender", selectGender.getText().toString());
+                        myBundle.putString("Password", tbPassword.getText().toString());
 
-                selectHobbies = findViewById(hobbies.getCheckedRadioButtonId());
-                myBundle.putString("Hobbies", selectHobbies.getText().toString());
+                        myBundle.putString("Birthday", tbBirthday.getText().toString());
 
-                myIntent.putExtras(myBundle);
-                startActivityForResult(myIntent, 102);
+
+                        if (gender.getCheckedRadioButtonId() != -1) {
+                            selectGender = findViewById(gender.getCheckedRadioButtonId());
+                            myBundle.putString("Gender", selectGender.getText().toString());
+                        }
+
+                        if (hobbies.getCheckedRadioButtonId() != -1) {
+                            selectHobbies = findViewById(hobbies.getCheckedRadioButtonId());
+                            myBundle.putString("Hobbies", selectHobbies.getText().toString());
+                        }
+
+                        myIntent.putExtras(myBundle);
+                        startActivityForResult(myIntent, 102);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Please check your password.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please fill out the information.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
